@@ -205,11 +205,16 @@ in the way they operate the system. """
 
 (Example:
 
-Lines X-Y: Description & impact of the flaw ... 
-Fix: Description of the fix ...
+Line 134: This line has exceeded the maximum characters a line should have with 122 characters. 
+The maximum characters a line should have is 79 characters.
+Fix: IT can be fixed by adding backlashes after the commas: (commit_readings, bill), \
+                                           		    encrypted_authority_shares = meter_encode(G, [0, 10, 5, 0, 20], \
+					                    [2, 2, 5, 5, 2], As_pub, sig_key)
 
-Lines X-Y: Description & impact of the flaw ...
-Fix: Description of the fix ...
+Lines 160: This line has exceeded the maximum characters a line should have with 105 characters.
+The maximum characters a line should have is 79 characters.
+Fix: (commit_readings, bill), \
+     IT can be fixed by adding backlashes after the commas: encrypted_authority_shares = meter_encode(G, readings, tariffs, As_pub, sig_key)
 
 Lines X-Y: Description & impact of the flaw ...
 Fix: Description of the fix ...
