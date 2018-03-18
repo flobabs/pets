@@ -204,6 +204,20 @@ in the way they operate the system. """
 """ Line :
 
 (Example:
+Line 75: This line exceeded the maximum characters a line should have with 
+Fix: 	encrypted_authority_shares \
+	+= [(meter_sign_key, commit_readings, ciphertext, signature)]
+Line 35: This line has bad whitespace
+Fix: inserting a single space after 0 is more appropriate: assert all(0 <= r <= 100 for r in readings)
+
+Line 78: Missing spacing 
+Fix: inserting a single whitespace after the comma: bill = sum(r*t for r, t in zip(readings, tariffs))
+
+Line 85: The line has bad whitespace
+Fix: inserting a single whitespace after the comma: return bill*g == sum([t*c for c, t in zip(commit_readings, tariffs)], G.infinite())
+
+Line 113: the line has bad whitespace
+Fix: Inserting a single whitespace after the comma: total_result += sum(s*w for s, w in zip(shares, weights))
 
 Line 134: This line has exceeded the maximum characters a line should have with 122 characters. 
 The maximum characters a line should have is 79 characters.
@@ -211,13 +225,13 @@ Fix: IT can be fixed by adding backlashes after the commas: (commit_readings, bi
                                            		    encrypted_authority_shares = meter_encode(G, [0, 10, 5, 0, 20], \
 					                    [2, 2, 5, 5, 2], As_pub, sig_key)
 
-Lines 160: This line has exceeded the maximum characters a line should have with 105 characters.
+Line 160: This line has exceeded the maximum characters a line should have with 105 characters.
 The maximum characters a line should have is 79 characters.
-Fix: (commit_readings, bill), \
-     IT can be fixed by adding backlashes after the commas: encrypted_authority_shares = meter_encode(G, readings, tariffs, As_pub, sig_key)
+Fix it can be fixed by adding backlashes after the commas: (commit_readings, bill), \
+      						           encrypted_authority_shares = meter_encode(G, readings, tariffs, As_pub, sig_key)
 
-Lines X-Y: Description & impact of the flaw ...
-Fix: Description of the fix ...
+Line 170: Unnessesary spacing
+Fix: Removing the unwanted spacing in the multiplication: assert total_share == 10*3
 
 )
 
