@@ -180,7 +180,19 @@ def test_aggregation():
 # and authorities can an ideal system using those techniques guarantee 
 # integrity and privacy? [5 Marks]
 
-""" Your answer here """
+""" his smart metering privacy system aims to remotely process smart meter readings of 
+user's devices in an efficient way whilst preserving the user’s privacy. 
+The authorities are able to have confidential access of how electricity 
+is consumed and aggregates statistics without revealing any personal 
+information about the users'. The system employs a secret-sharing technique 
+to process the meter readings in a privacy-preserving fashion to protect 
+the consumption information from being leaked. The protocol also implements 
+a signature scheme to sign and encrypt the meter readings.  Privacy is 
+guaranteed that if one of the authorities (e.g. G) is properly implemented 
+in the protocol, the meter readings cannot disclose any personal information 
+when processing authorized queries. Integrity is guaranteed under the assumption 
+that the authorities comply with the protocol and, that they are honest and transparent 
+in the way they operate the system. """
 
 # Question Q2: Perform a code review, and identify potential flaws in the implementation
 # of this privacy system. Describe the impact of each flaw. When a flaw is identified indicate 
