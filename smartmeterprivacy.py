@@ -229,10 +229,13 @@ Line 160: This line has exceeded the maximum characters a line should have with 
 The maximum characters a line should have is 79 characters.
 Fix it can be fixed by adding backlashes after the commas: (commit_readings, bill), \
       						           encrypted_authority_shares = meter_encode(G, readings, tariffs, As_pub, sig_key)
-
 Line 170: Unnessesary spacing
 Fix: Removing the unwanted spacing in the multiplication: assert total_share == 10*3
 
+Line 14: getrandbits was imported in the but wasn't used at all in the protocol.
+Fix: eliminate the getrandbits 
+
+Line 91: weights was used as a secret to the authorities but wasn't defined in the code
 )
 
 """
