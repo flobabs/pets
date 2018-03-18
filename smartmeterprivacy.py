@@ -173,14 +173,14 @@ def test_aggregation():
 # 
 # QUESTIONS & ANSWERS
 
-""" Reviewer (Student): TODO: YOUR NAME HERE! """
+""" Reviewer (Student): TODO: BABATUNDE MOHAMMED OLOGBURO! """
 
 # Question Q1: Describe what this smart metering privacy system tries to achieve, and 
 # what techniques it is using from the course? Under what assumptions on the meters
 # and authorities can an ideal system using those techniques guarantee 
 # integrity and privacy? [5 Marks]
 
-""" his smart metering privacy system aims to remotely process smart meter readings of 
+""" This smart metering privacy system aims to remotely process smart meter readings of 
 user's devices in an efficient way whilst preserving the user’s privacy. 
 The authorities are able to have confidential access of how electricity 
 is consumed and aggregates statistics without revealing any personal 
