@@ -241,7 +241,7 @@ Line 75: This statement meter_sign_key is being discolsed to the public reveals 
 line 95: If an error occurs within this try block, there is no statement that  handles or catches the error/exceptions. 
 Therefore, it will only 
 Fix: adding a Catch or an except block within the code will handle exceptions produced by its statement. 
-The catch block will print the executions, stop the program, and can perform error recovery to notify the coder. 
+The catch block will print the executions, stop the program, and can perform error recovery to notify the coder about the error. 
 )
 
 """
