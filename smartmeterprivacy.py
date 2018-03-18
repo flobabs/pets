@@ -74,7 +74,7 @@ def meter_encode(G, readings, tariffs, authority_keys, meter_sign_key):
 
 		encrypted_authority_shares += [(meter_sign_key, commit_readings, ciphertext, signature)]
 
-	# Prove total bill
+	# Prove total bill 
 	bill = sum(r*t for r,t in zip(readings, tariffs))
 	return (commit_readings, bill), encrypted_authority_shares
 
@@ -173,7 +173,7 @@ def test_aggregation():
 # 
 # QUESTIONS & ANSWERS
 
-""" Reviewer (Student): TODO: BABATUNDE MOHAMMED OLOGBURO! """
+""" Reviewer (Student): BABATUNDE MOHAMMED OLOGBURO! """
 
 # Question Q1: Describe what this smart metering privacy system tries to achieve, and 
 # what techniques it is using from the course? Under what assumptions on the meters
@@ -191,7 +191,7 @@ a signature scheme to sign and encrypt the meter readings.  Privacy is
 guaranteed that if one of the authorities (e.g. G) is properly implemented 
 in the protocol, the meter readings cannot disclose any personal information 
 when processing authorized queries. Integrity is guaranteed under the assumption 
-that the authorities comply with the protocol and, that they are honest and transparent 
+that the authorities comply with the protocol, and that they are honest and transparent 
 in the way they operate the system. """
 
 # Question Q2: Perform a code review, and identify potential flaws in the implementation
@@ -201,7 +201,7 @@ in the way they operate the system. """
 # Present your findings as a list below by line numbers (not inline with the code.) 
 # Feel free to use small code smippets to illustrate your answers.	[10 marks]
 
-""" Your answer here 
+""" Line :
 
 (Example:
 
