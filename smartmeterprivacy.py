@@ -236,6 +236,10 @@ Line 14: getrandbits was imported in the but wasn't used at all in the protocol.
 Fix: eliminate the getrandbits 
 
 Line 91: weights was used as a secret to the authorities but wasn't defined in the code
+
+Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key 
+line 95: The try statement used here is meant to try
+
 )
 
 """
