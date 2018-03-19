@@ -194,9 +194,9 @@ without leaking any information about the secret.
 Privacy is guaranteed that if one of the authorities (e.g. G) is 
 properly implemented in the protocol, the meter readings cannot disclose any personal 
 information when processing authorized queries. 
-Integrity is guaranteed under the assumption 
-that the authorities comply with the protocol, and that they are honest and transparent 
-in the way they operate the system. """
+Integrity is guaranteed under the assumption that the authorities follow and comply with
+the protocol, and that they are honest and transparent in the way they operate the system.
+"""
 
 # Question Q2: Perform a code review, and identify potential flaws in the implementation
 # of this privacy system. Describe the impact of each flaw. When a flaw is identified indicate 
@@ -239,9 +239,6 @@ Fix: Removing the unwanted spacing in the multiplication: assert total_share == 
 Line 14: getrandbits was imported in the code but wasn't used at all in the protocol.
 Fix: eliminate the getrandbits 
 
-Line 91: weights was used as a secret to the authorities but wasn't defined in the code
-Fix: by removing it.
-
 Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key, the private key shouldn't 
 be publicly published.
 fix: The private key should be removed.
@@ -259,6 +256,9 @@ Line 35: There are no check if the readings are on the lists.
 Fix: There should be a return statement that raises an AssertionError whenever there is an exception.
 For example adding another line with: if not:(0<= r <= 100 for r in readings)	
 					  raise AssertionError(Message)
+Line 48: The randint() is not cyptographically random as it is deterministic, therefore
+it is not secure as an adversary can predict
+Fix: use os.urandom as it is crytographically secure.
 
 """
 
@@ -269,11 +269,13 @@ For example adding another line with: if not:(0<= r <= 100 for r in readings)
 
 """ I believe the testing regime should be more exhaustive to cover more of the cases.
 It should cover any possible cases for the inputs that are not checked and give a correct 
-or wrong input to the tests depending on how the system responds. The test should cover 
-functions with different inputs in the tests. 
+or wrong input to the tests depending on how the system responds. There's no negative 
+testing, that is, if fails to handle invalid input or when there is an error in the system.
+The test should cover functions with different inputs in the tests. 
 example: with weights = [0,0,0,0], "a", [1,2,3,4,5,6,7,9,10] and decimals, and every 
 other possible number. This action should be done for the readings, tariffs and every 
-possible case.
+possible case. 
+
 
 
 """
