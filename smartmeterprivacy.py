@@ -188,7 +188,10 @@ information about the users'. The system employs a secret-sharing technique
 to process the meter readings in a privacy-preserving fashion to protect 
 the consumption information from being leaked. The protocol also implements 
 a signature scheme to sign and encrypt the meter readings. It also uses asymmetric key 
-encryption and zero knowledge proof. Privacy is guaranteed that if one of the authorities (e.g. G) is 
+encryption to encrypt and decrypt the data with the private and public key, 
+and zero knowledge proof is used to prove the integrity of the statements of the secrets 
+without leaking any information about the secret. 
+Privacy is guaranteed that if one of the authorities (e.g. G) is 
 properly implemented in the protocol, the meter readings cannot disclose any personal 
 information when processing authorized queries. 
 Integrity is guaranteed under the assumption 
