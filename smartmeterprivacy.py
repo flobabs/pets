@@ -184,7 +184,7 @@ def test_aggregation():
 user's devices in an efficient way whilst preserving the user’s privacy. 
 The authorities are able to have confidential access of how electricity 
 is consumed and aggregates statistics without revealing any personal 
-information about the users'. The system employs a secret-sharing technique 
+information about the users. The system employs a secret-sharing technique 
 to process the meter readings in a privacy-preserving fashion to protect 
 the consumption information from being leaked. The protocol also implements 
 a signature scheme to sign and encrypt the meter readings. It also uses asymmetric key 
@@ -240,10 +240,11 @@ Line 14: getrandbits was imported in the code but wasn't used at all in the prot
 Fix: eliminate the getrandbits 
 
 Line 91: weights was used as a secret to the authorities but wasn't defined in the code
+Fix: by removing it.
 
 Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key, the private key shouldn't 
 be publicly published.
-fix: a public key 
+fix: The private key should be removed.
 line 95: If an error occurs within this try block, there is no statement that  handles or catches the error/exceptions. 
 Therefore, it will only generate the total result.
 Fix: adding an except block within the code will handle exceptions produced by its statement. 
@@ -265,4 +266,12 @@ For example adding another line with: if not:(0<= r <= 100 for r in readings)
 # identified above. Illustrate how different tests could have been used to catch specific 
 # flaws you identified. [5 Marks]
 
-""" Your answer here """
+
+""" I believe the testing regime should be more exhaustive to cover more of the cases.
+It should cover any possible cases for the inputs that are not checked and give a correct 
+or wrong input to the tests depending on how the system responds. For example
+in line 36, the assert verify bill should also check for decimals, 0, 1, 4 and every 
+other possible number. Also, 
+
+
+"""
