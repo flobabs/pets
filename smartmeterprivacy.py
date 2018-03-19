@@ -187,10 +187,11 @@ is consumed and aggregates statistics without revealing any personal
 information about the users'. The system employs a secret-sharing technique 
 to process the meter readings in a privacy-preserving fashion to protect 
 the consumption information from being leaked. The protocol also implements 
-a signature scheme to sign and encrypt the meter readings.  Privacy is 
-guaranteed that if one of the authorities (e.g. G) is properly implemented 
-in the protocol, the meter readings cannot disclose any personal information 
-when processing authorized queries. Integrity is guaranteed under the assumption 
+a signature scheme to sign and encrypt the meter readings. it also uses asymmetric key 
+encryption and zero knowledge proof. Privacy is guaranteed that if one of the authorities (e.g. G) is 
+properly implemented in the protocol, the meter readings cannot disclose any personal 
+information when processing authorized queries. 
+Integrity is guaranteed under the assumption 
 that the authorities comply with the protocol, and that they are honest and transparent 
 in the way they operate the system. """
 
@@ -232,17 +233,22 @@ Fix it can be fixed by adding backlashes after the commas: (commit_readings, bil
 Line 170: Unnessesary spacing
 Fix: Removing the unwanted spacing in the multiplication: assert total_share == 10*3
 
-Line 14: getrandbits was imported in the but wasn't used at all in the protocol.
+Line 14: getrandbits was imported in the code but wasn't used at all in the protocol.
 Fix: eliminate the getrandbits 
 
 Line 91: weights was used as a secret to the authorities but wasn't defined in the code
 
-Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key 
+Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key, the private key shouldn't 
+be use
+fix: a public key 
 line 95: If an error occurs within this try block, there is no statement that  handles or catches the error/exceptions. 
-Therefore, it will only 
+Therefore, it will only generate the total result.
 Fix: adding a Catch or an except block within the code will handle exceptions produced by its statement. 
 The catch block will print the executions, stop the program, and can perform error recovery to notify the coder about the error. 
 )
+Line 69: The iv used is not random. That is, it is predictable and the ciphertexts remains the same 
+when encrypted again which will leak information.
+Fix: instead of using an iv, a unique nonce can be used.
 
 """
 
