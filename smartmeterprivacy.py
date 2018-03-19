@@ -187,7 +187,7 @@ is consumed and aggregates statistics without revealing any personal
 information about the users'. The system employs a secret-sharing technique 
 to process the meter readings in a privacy-preserving fashion to protect 
 the consumption information from being leaked. The protocol also implements 
-a signature scheme to sign and encrypt the meter readings. it also uses asymmetric key 
+a signature scheme to sign and encrypt the meter readings. It also uses asymmetric key 
 encryption and zero knowledge proof. Privacy is guaranteed that if one of the authorities (e.g. G) is 
 properly implemented in the protocol, the meter readings cannot disclose any personal 
 information when processing authorized queries. 
@@ -239,16 +239,22 @@ Fix: eliminate the getrandbits
 Line 91: weights was used as a secret to the authorities but wasn't defined in the code
 
 Line 75: This statement meter_sign_key is being discolsed to the public reveals the private key, the private key shouldn't 
-be use
+be publicly published.
 fix: a public key 
 line 95: If an error occurs within this try block, there is no statement that  handles or catches the error/exceptions. 
 Therefore, it will only generate the total result.
-Fix: adding a Catch or an except block within the code will handle exceptions produced by its statement. 
-The catch block will print the executions, stop the program, and can perform error recovery to notify the coder about the error. 
-)
+Fix: adding an except block within the code will handle exceptions produced by its statement. 
+The except block will print the executions, stop the program, and can perform error recovery to notify the coder about the error. 
+For example adding except ValueError:
+			print("Invalid Input")
 Line 69: The iv used is not random. That is, it is predictable and the ciphertexts remains the same 
 when encrypted again which will leak information.
 Fix: instead of using an iv, a unique nonce can be used.
+
+Line 35: There are no check if the readings are on the lists. 
+Fix: There should be a return statement that raises an AssertionError whenever there is an exception.
+For example adding another line with: if not:(0<= r <= 100 for r in readings)	
+					  raise AssertionError(Message)
 
 """
 
