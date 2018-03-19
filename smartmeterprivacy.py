@@ -272,7 +272,7 @@ It should cover any possible cases for the inputs that are not checked and give 
 or wrong input to the tests depending on how the system responds. There's no negative 
 testing, that is, if fails to handle invalid input or when there is an error in the system.
 The test should cover functions with different inputs in the tests. 
-example: with weights = [0,0,0,0], "a", [1,2,3,4,5,6,7,9,10] and decimals, and every 
+example: with weights = [0,0,0,0], "a", [1,2,3,4,5,6,7,9,10......50] and, types, decimals, and every 
 other possible number. This action should be done for the readings, tariffs and every 
 possible case. 
 
