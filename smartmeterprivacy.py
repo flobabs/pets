@@ -24,8 +24,8 @@ without leaking any information about the secret.
 Privacy is guaranteed that if one of the authorities (e.g. G) is 
 properly implemented in the protocol, the meter readings cannot disclose any personal 
 information when processing authorized queries. 
-Integrity is guaranteed under the assumption that the authorities follow and comply with
-the protocol, and that they are honest and transparent in the way they operate the system.
+Integrity is guaranteed under the assumption that the plaintexts are signed so when the authorities decrypt it there is a signature that can validate the claim. 
+Also, under the assumption that the authorities follow and comply with the protocol, and that they are honest and transparent in the way they operate the system.
 """
 
 # Question Q2: Perform a code review, and identify potential flaws in the implementation
