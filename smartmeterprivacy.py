@@ -269,9 +269,11 @@ For example adding another line with: if not:(0<= r <= 100 for r in readings)
 
 """ I believe the testing regime should be more exhaustive to cover more of the cases.
 It should cover any possible cases for the inputs that are not checked and give a correct 
-or wrong input to the tests depending on how the system responds. For example
-in line 36, the assert verify bill should also check for decimals, 0, 1, 4 and every 
-other possible number. Also, 
+or wrong input to the tests depending on how the system responds. The test should cover 
+functions with different inputs in the tests. 
+example: with weights = [0,0,0,0], "a", [1,2,3,4,5,6,7,9,10] and decimals, and every 
+other possible number. This action should be done for the readings, tariffs and every 
+possible case.
 
 
 """
