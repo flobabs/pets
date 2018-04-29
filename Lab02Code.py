@@ -111,6 +111,7 @@ def mix_server_one_hop(private_key, message_list):
     return sorted(out_queue)
         
         
+        
 def mix_client_one_hop(public_key, address, message):
     """
     Encode a message to travel through a single mix with a set public key. 
@@ -206,9 +207,9 @@ def mix_server_n_hop(private_key, message_list, final=False):
 
         ## First get a shared key
         shared_element = private_key * msg.ec_public_key
-        print(hexlify(shared_element.export()))
+       
         key_material = sha512(shared_element.export()).digest()
-        print("KEY MATERIAL: " + str(key_material[0:10]))
+        
         
         # Use different parts of the shared key for different operations
         hmac_key = key_material[:16]
@@ -223,22 +224,14 @@ def mix_server_n_hop(private_key, message_list, final=False):
         
         ## Check the HMAC
         h = Hmac(b"sha512", hmac_key)
-        print("\nSERVER\n------------------")
-        print("")
-        print("hmac_key: " + str(hexlify(hmac_key[0:10])))
-        print("\n")
         for other_mac in msg.hmacs[1:]:
             h.update(other_mac)
-            print("Adding data to mac: " + str(hexlify(other_mac[0:10])))
+            
 
         h.update(msg.address)
-        print("Adding data to mac: " + str(hexlify(msg.address[0:10])))
         h.update(msg.message)
-        print("Adding data to mac: " + str(hexlify(msg.message[0:10])))
 
         expected_mac = h.digest()
-        print("Server hmac:" + str(hexlify(expected_mac[0:10]) +
-                                     "\n\nExpected:\n" + hexlify(msg.hmacs[0][0:10])))
                 
         if not secure_compare(msg.hmacs[0], expected_mac[:20]):
             raise Exception("HMAC check failure")
@@ -251,9 +244,8 @@ def mix_server_n_hop(private_key, message_list, final=False):
         for i, other_mac in enumerate(msg.hmacs[1:]):
             # Ensure the IV is different for each hmac
             iv = pack("H14s", i, b"\x00"*14)
-            print("Decrypting HMAC with IV: " + str([ord(x) for x in iv]))
+
             hmac_plaintext = aes_ctr_enc_dec(hmac_key, iv, other_mac)
-            print("result of decrypt: " + str(hexlify(hmac_plaintext[0:10])))
             new_hmacs += [hmac_plaintext]
 
         # Decrypt address & message
@@ -314,39 +306,34 @@ def mix_client_n_hop(public_keys, address, message):
             pub_key = public_keys[i-1]
 
             # The shared key that the hop will use to calculate the factor
-                
             shared_key = shared_keys[i-1]
             key_digest = sha512(shared_key).digest()
             # the blinding factor that they will use
             blinding_factor = Bn.from_binary(key_digest[48:])
-            #blinding_factor *= blind_factors[i-1]
             blind_factors.append(blinding_factor)
 
-        print("new pub")
         shared_key = public_keys[i].pt_mul(private_key)
         for j, fac in enumerate(blind_factors[0:i+1]):
-            print("Blinding")
             shared_key = shared_key.pt_mul(blind_factors[j])
         shared_key = shared_key.export()
         shared_keys.append(shared_key)
 
-    
-    
-
+    ## Reverse the key lists, since we will compute hmacs in reverse order
     shared_keys.reverse()
     public_keys.reverse()
 
     message_ciphers = []
     address_ciphers = []
     hmacs = []
+    
     previous_hmac_key = None
     for i, pub in enumerate(public_keys):
+        # Get shared key from precomputed list 
         shared_key = shared_keys[i]
         key_digest = sha512(shared_key).digest()
         address_key = key_digest[16:32]
         message_key = key_digest[32:48]
         hmac_key = key_digest[:16]
-        print("\nCLIENT\n-------------\nHMAC Key:" + str(hexlify(hmac_key[0:10])))
         ## 1. Encrypt The Message
         if i==0:
             message_cipher = aes_ctr_enc_dec(message_key, iv, message_plaintext)
@@ -362,30 +349,23 @@ def mix_client_n_hop(public_keys, address, message):
         
         ## 2. Encrypt the old HMACs
         for q, mac in enumerate(hmacs):
-            print("Encrypting, q is " + str(q))
             iv = pack("H14s", len(hmacs)-q-1, b"\x00"*14)
-            print("Encrypting HMAC with IV: " +  str([ord(x) for x in
-        iv]))
-
             hmacs[q] = aes_ctr_enc_dec(hmac_key, iv, mac)
 
         previous_hmac_key = hmac_key
 
         ## 3. Compute the new HMAC
-        
         h = Hmac(b"sha512", hmac_key)
- 
+
+        ## Iterate backwards through the previous hmacs
         for old_mac in hmacs[::-1]:
-            print("Adding data to mac: " + str(hexlify(old_mac[0:10])))
             h.update(old_mac)
         h.update(address_ciphers[i])
         h.update(message_ciphers[i])
-        print("Adding data to mac: " + str(hexlify(address_ciphers[i][0:10])))
-        print("Adding data to mac: " + str(hexlify(message_ciphers[i][0:10])))
+        
 
         new_mac = h.digest()
 
-        print("The result hmac: " + str(hexlify(new_mac[:10])))
         hmacs.append(new_mac[:20])
       
     # Hmacs were built in reverse order, put them back in order
@@ -439,19 +419,21 @@ def analyze_trace(trace, target_number_of_friends, target=0):
     friends of the target.
     """
 
-    ## ADD CODE HERE
-    ## trace = [([send],[rec]),([send],[rec]), ([send],[rec])]
-    
+    # Remove all traces that the target doesn't send in
     for t in trace:
         if target not in t[0]:
             trace.remove(t)
 
     c = Counter(trace[0][0])
 
+
+    ## iterate traces, if a receiver received when target was sending,
+    ## increment count
     for t in trace:
         for i in t[1]:
             c[i] += 1
 
+    # Get most common friends and return
     q = (c.most_common(target_number_of_friends))
     q = [x[0] for x in q] 
     return q
@@ -461,21 +443,24 @@ def analyze_trace(trace, target_number_of_friends, target=0):
 
 """ 
 
-What are the problems with both, and do they apply here?
-first thoughts: yes, no probabalistic encryption
-also ctr mode isn't great either.
+Since for every message sent to the mix, the client generates a new
+private key. Since the symmetric shared key is derived from the
+private key, every message will look different, so there is no need to
+introduce a random IV.
 
-The same message sent twice will be the same??
-No, because an iv/nonce is used
-But the iv is all zeros?
+The purpose of an initialisation vector is to prevent the exact same
+message from encrypting to the same ciphertext, if it is encrypted on
+two seperate occasions. but, if the  key is different every
+time, the plaintexts will differ completely anyway, so there is no
+need for an IV.
 
-Conclusion:
+We can see on line 291 of this file that the client gets a random
+private key each time. (This is okay as there is no need for the
+client to authenticate itself to the servers.)
 
-If a user happens to use the same mix path,
-and sends the same message.
-An attack then knows that they have sent that message again. Or at
-least, that they're traffic involves repition. A small leakage of
-data, but still leakage.
+furthermore as long as there is a changing counter (which there is in counter mode), the
+subsequent blocks of the cipher will not encrypt to the same value so
+this is not an additional concern introduced by zero iv's.
 
 """
 
@@ -485,17 +470,20 @@ data, but still leakage.
 #                        makes about the distribution of traffic from non-target senders to receivers? Is
 #                        the correctness of the result returned dependent on this background distribution?
 
-"""  
-The assumption is made that non-target senders, do not send data to
+"""The assumption is made that non-target senders, do not send data to
 the targets friends. 
 
-The attack is based on the fact that it is more likely that friends
-will appear in the same trace as the target. If, for most traces where
-the target sends, particular receivers occur often, they are likely to
-be friends, so, if, in traces where the target sends, The worst
-possibility is that other non friends are found to be equally likely
-to be the friends of the target.
+The attack is based on the fact that it is more likely that friends of
+the target will appear as receivers in the same trace as the target is
+sending. If, for most traces where the target sends, particular
+receivers occur often, they are likely to be friends, so, if, in
+traces where the target sends, the worst possibility is that other non
+friends are found to be equally likely to be the friends of the
+target.
 
-It 
+It also makes the assumption that, every other sender is not sending a
+message at the same time as the target. If, at every time the target
+sends a message, every other sender also sends a message; then, this
+attack would not work.
 
 """
